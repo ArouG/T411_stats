@@ -1,0 +1,37 @@
+* Table 'base' : comporte l'ensemble des informations initiales concernant les 3003 uploads suivis :
+* Tid = Identificateur de l'upload
+* lien = permet d'accèder via http://www.t411.me/torrents/ + lien aux détails de l'upload
+* indice = numéro d'ordre de l'id par appel via l'API T411 "/torrents/search/a" - permet de déterminer le nombre de pages maximales (1000 / page) nécessaire pour couvrir tous les 3003 torrents
+* Uic = indentificateur de la catégorie
+* TimeAdd = date de l'upload (format timestamp )
+* Sized = taille en octets de l'upload (format texte)
+* Uid = identificateur de l'uploader.
+
+CREATE TABLE 'base' ( 'Tid' INTEGER PRIMARY KEY, 'lien' TEXT, 'indice' INTEGER, 'Uic' INTEGER, 'TimeAdd' DATETIME, 'Sized' TEXT, 'Uid' INTEGER );
+
+* Tables 'morts' et 'mpb' qui listent à chaque scan la liste des torrents disparus (morts = confirmation de la disparition, mpb = disparition non confirmée)
+
+CREATE TABLE 'morts' ( 'DatMaint' DATETIME, 'id' INTEGER PRIMARY KEY );
+CREATE TABLE 'mpb' ( 'DatMaint' DATETIME, 'id' INTEGER PRIMARY KEY );
+
+* 3 tables comportant chacunes 1001 torrents selon leur age d'upload
+
+CREATE TABLE 'recents' ( 'Tid' INTEGER NOT NULL PRIMARY KEY );
+CREATE TABLE 'normals' ( 'Tid' INTEGER NOT NULL PRIMARY KEY );
+CREATE TABLE 'oldests' ( 'Tid' INTEGER NOT NULL PRIMARY KEY );
+
+* table 'resultats' = synthèse de chaque scan :
+* DatMaint = date du scan (format timstamp),
+* NbLig = nombre de torrents encore actifs
+* nbpasses = nombre de pages nécessaires pour couvrir le dommaine (voir "indice" de la table 'base')
+
+CREATE TABLE 'resultats' ( 'DatMaint' DATETIME, 'NbLig' INTEGER, 'nbpasses' INTEGER );
+
+* Enfin la table principale "SCANS" comportant :
+* Tid :l'Identificateur de l'upload,
+* Date_Scan : la date (format timestamp) du scan,
+* NbS : nombre de seeders,
+* NbL : nombre de leechers et 
+* NbC : nombre de complétés
+
+CREATE TABLE "scans" ("Tid" INTEGER, "Date_Scan" DATETIME, "NbS" INTEGER, "NbL" INTEGER, "NbC" INTEGER);
