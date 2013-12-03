@@ -35,3 +35,12 @@ CREATE TABLE 'resultats' ( 'DatMaint' DATETIME, 'NbLig' INTEGER, 'nbpasses' INTE
 * NbC : nombre de complétés
 
 CREATE TABLE "scans" ("Tid" INTEGER, "Date_Scan" DATETIME, "NbS" INTEGER, "NbL" INTEGER, "NbC" INTEGER);
+
+* la table Synth récupérera - après chaque scan - une synthèse des valeurs (par catégories, notamment) pour faciliter l'obtention des courbes de résultats : 
+* Uic : n° de catégorie
+* tableau : caractère <=> 'N'ouveau, 'R'écents, 'O'ldests et 'A' pour 'A'll (toutes Id de torrents confondues)
+* Smin : Nombre de seeders minimal dans la catégorie et pour le type de torrent (O,N,R,A),
+* Smax : Nombre de seeders max
+* Lmin, Lmax, Cmin et Cmax : leechers et complétés ...
+
+CREATE TABLE "synth" ("Uic" INTEGER,"tableau" TEXT,"Smin" INTEGER,"Smax" INTEGER,"Lmin" INTEGER,"Lmax" INTEGER,"Cmin" INTEGER,"Cmax" INTEGER);
